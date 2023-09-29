@@ -9,7 +9,7 @@ class Phrase {
 
     addPhraseToDisplay() {
         const displayDiv = document.querySelector('#phrase');
-        let phraseHTML = '<ul>';
+        let phraseHTML = '';
         const phraseArray = this.phrase.split();
         phraseArray.forEach(char => {
             if (char !== " ") {
@@ -19,18 +19,17 @@ class Phrase {
                 // add space to phraseHTML
                 phraseHTML += `<li class="space"> </li>`
             }
-        phraseHTML += '</ul>'
         });
-        displayDiv.insertAdjacentHTML('beforeend', phraseHTML);
+        displayDiv.firstChild.insertAdjacentHTML('beforeend', phraseHTML);
     }
 
     checkLetter(char) {
         // check if letter is included in phraseArray
         const phraseArray = this.phrase.split();
         if (phraseArray.includes(char)) {
-            this.showMatchedLetter(char);
+            return true;
         }
-        // if no, take away a heart
+        return false;
     }
 
     showMatchedLetter(char) {
