@@ -9,6 +9,7 @@ const resetGame = () => {
     keyboardLetters.forEach(key => {
         key.classList.remove('wrong');
         key.classList.remove('chosen');
+        key.removeAttribute('disabled');
     })
     const lives = document.querySelectorAll('.tries');
     lives.forEach(lifeLI => {
@@ -50,6 +51,8 @@ class Game {
     }
 
     handleInteraction(targetBtn) {
+        // disables target button
+        targetBtn.disabled = true;
         // retrieves guessed letter
         const playerGuess = targetBtn.textContent;
         // handles guess
