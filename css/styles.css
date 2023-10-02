@@ -188,7 +188,9 @@ button {
 }
 
 .win {
-  background-color: var(--color-win);
+  background-image: url("../images/win.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .win a {
@@ -196,7 +198,9 @@ button {
 }
 
 .lose {
-  background-color: #f5785f;
+  background-image: url("../images/lose.jpg");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 
 .lose a {

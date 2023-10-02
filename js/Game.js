@@ -106,8 +106,12 @@ class Game {
             startScreen.classList.remove('lose');
         } else {
             overlayH1.innerText = 'Oh no, you lost. Try again!'
+            overlayH1.style.color = "#3a3f58";
             startScreen.classList.add('lose');
             startScreen.classList.remove('win');
+            startScreen.querySelector('.title').style.color = "#3a3f58";
+            startScreen.querySelector('#btn__reset').style.backgroundColor = "#3a3f58";
+            startScreen.querySelector('#btn__reset').style.color = "#FFFFFF"
         }
     }
 }

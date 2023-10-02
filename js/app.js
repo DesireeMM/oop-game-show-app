@@ -20,7 +20,7 @@ letterDiv.addEventListener('click', (evt) => {
     newGame.handleInteraction(targetBtn);
 });
 
-letterDiv.addEventListener('keyup', (evt) => {
+document.addEventListener('keyup', (evt) => {
     const letterButtons = document.querySelectorAll('#qwerty button');
     letterButtons.forEach(btn => {
         if (btn.textContent === evt.key) {
