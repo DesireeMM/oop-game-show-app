@@ -16,8 +16,10 @@ startBtn.addEventListener('click', () => {
 // handle user interaction
 const letterDiv = document.querySelector('#qwerty');
 letterDiv.addEventListener('click', (evt) => {
-    const targetBtn = evt.target.closest('button');
-    newGame.handleInteraction(targetBtn);
+    if (evt.target.matches('button')) {
+        const targetBtn = evt.target;
+        newGame.handleInteraction(targetBtn)
+    }
 });
 
 document.addEventListener('keyup', (evt) => {
