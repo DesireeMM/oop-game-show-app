@@ -50,22 +50,26 @@ class Game {
     }
 
     handleInteraction(targetBtn) {
-            const playerGuess = targetBtn.textContent;
-            const checkLetter = this.activePhrase.checkLetter(playerGuess);
-            if (!checkLetter) {
-                targetBtn.classList.add('wrong');
-                this.removeLife();
-            } else {
-                targetBtn.classList.add('chosen');
-                this.activePhrase.showMatchedLetter(playerGuess);
-                const winCheck = this.checkForWin();
-                if (winCheck) {
-                    this.gameOver(winCheck)
-                }
+        // retrieves guessed letter
+        const playerGuess = targetBtn.textContent;
+        // handles guess
+        const checkLetter = this.activePhrase.checkLetter(playerGuess);
+        if (!checkLetter) {
+            targetBtn.classList.add('wrong');
+            this.removeLife();
+        } else {
+            targetBtn.classList.add('chosen');
+            this.activePhrase.showMatchedLetter(playerGuess);
+            const winCheck = this.checkForWin();
+            if (winCheck) {
+                this.gameOver(winCheck)
             }
+        }
     }
 
     removeLife() {
+        // increments the missed property and
+        // updates lives display
         this.missed += 1;
         const lives = document.querySelectorAll('.tries');
         lives.forEach((liveLI, index) => {
@@ -99,10 +103,11 @@ class Game {
         if (winCheck) {
             overlayH1.innerText = 'Congratulations, you won!';
             startScreen.classList.add('win');
+            startScreen.classList.remove('lose');
         } else {
             overlayH1.innerText = 'Oh no, you lost. Try again!'
             startScreen.classList.add('lose');
-            console.log(this.missed);
+            startScreen.classList.remove('win');
         }
     }
 }
