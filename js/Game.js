@@ -2,60 +2,77 @@
  * Project 4 - OOP Game App
  * Game.js */
 
+const resetGame = () => {
+    const displayDivUL = document.querySelector('#phrase ul');
+    displayDivUL.innerHTML = '';
+    const keyboardLetters = document.querySelectorAll('.key');
+    keyboardLetters.forEach(key => {
+        key.classList.remove('wrong');
+        key.classList.remove('chosen');
+    })
+    const lives = document.querySelectorAll('.tries');
+    lives.forEach(lifeLI => {
+        const heartIMG = lifeLI.firstChild;
+        heartIMG.src = 'images/liveHeart.png';
+    })
+};
+
 class Game {
-    constructor(missed, phrases, activePhrase = null) {
-        this.missed = missed;
-        this.phrases = phrases;
-        this.activePhrase = activePhrase
+    constructor() {
+        this.missed = 0;
+        this.phrases = [
+            new Phrase("javascript is fun"),
+            new Phrase("lifelong learner"),
+            new Phrase("treehouse"),
+            new Phrase("anita b"),
+            new Phrase("apprenticeship pathway program")
+        ];
+        this.activePhrase = null;
     }
 
     startGame() {
         // hides start screen overlay
         const startScreen = document.querySelector('#overlay');
         startScreen.classList.remove('show');
-        startScreen.classList.add('hide');
+        startScreen.style.display = 'none';
         // calls getRandomPhrase()
-        const randomPhrase = this.getRandomPhrase(this.phrases);
+        const randomPhrase = this.getRandomPhrase();
         // sets activePhrase
         this.activePhrase = randomPhrase;
         // displays activePhrase with addPhraseToDisplay()
-        this.addPhraseToDisplay(activePhrase);
+        this.activePhrase.addPhraseToDisplay();
     }
 
     getRandomPhrase() {
         // randomly retrieves one of the phrases in this.phrases
-        const randomNumber = Math.floor(Math.random * this.phrases.length);
+        const randomNumber = Math.floor(Math.random() * this.phrases.length);
         return this.phrases[randomNumber];
     }
 
-    handleInteraction() {
-        // takes user button click
-        const letterDiv = document.querySelector('#qwerty');
-        letterDiv.addEventListener('click', (evt) => {
-            const targetBtn = evt.target.closest('button');
+    handleInteraction(targetBtn) {
             const playerGuess = targetBtn.textContent;
-            this.activePhrase.checkLetter(playerGuess);
+            const checkLetter = this.activePhrase.checkLetter(playerGuess);
             if (!checkLetter) {
                 targetBtn.classList.add('wrong');
                 this.removeLife();
             } else {
                 targetBtn.classList.add('chosen');
                 this.activePhrase.showMatchedLetter(playerGuess);
-                if (this.checkForWin()) {
-                    this.gameOver()
+                const winCheck = this.checkForWin();
+                if (winCheck) {
+                    this.gameOver(winCheck)
                 }
             }
-        });
     }
 
     removeLife() {
-        const scoreboard = document.querySelector('#scoreboard');
-        const lives = scoreboard.querySelectorAll('li');
+        this.missed += 1;
+        const lives = document.querySelectorAll('.tries');
         lives.forEach((liveLI, index) => {
             if (index < this.missed) {
-                liveLI.src = 'images/lostHeart.png';
+                const heartIMG = liveLI.firstChild
+                heartIMG.src = 'images/lostHeart.png';
             }
-            this.missed += 1;
         })
         if (this.missed >= 5) {
             this.gameOver();
@@ -65,27 +82,27 @@ class Game {
     checkForWin() {
         // check if all letters are revealed
         const phraseDiv = document.querySelector('#phrase')
-        allChars = phraseDiv.querySelectorAll('li');
-        allChars.forEach(charLI => {
-            if (charLI.classList.includes('hide')) {
-                return false;
+        const allChars = phraseDiv.querySelectorAll('li');
+        for (let i = 0; i < allChars.length; i++) {
+            if (allChars[i].classList.contains('hide')) {
+                return false
             }
-            return true;
-        });
-
+        }
+        return true
     }
 
-    gameOver() {
+    gameOver(winCheck) {
         // displays original start screen overlay
-        startScreen.classList.add('show');
-        startScreen.classList.remove('hide');
+        const startScreen = document.querySelector('#overlay')
+        startScreen.style.display = 'block';
         const overlayH1 = document.querySelector('#game-over-message');
-        if (checkForWin) {
+        if (winCheck) {
             overlayH1.innerText = 'Congratulations, you won!';
-            overlayH1.classList.add('win');
+            startScreen.classList.add('win');
         } else {
             overlayH1.innerText = 'Oh no, you lost. Try again!'
-            overlayH1.classList.add('lose');
+            startScreen.classList.add('lose');
+            console.log(this.missed);
         }
     }
 }

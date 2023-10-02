@@ -10,7 +10,7 @@ class Phrase {
     addPhraseToDisplay() {
         const displayDiv = document.querySelector('#phrase');
         let phraseHTML = '';
-        const phraseArray = this.phrase.split();
+        const phraseArray = this.phrase.split('');
         phraseArray.forEach(char => {
             if (char !== " ") {
                 // add letter to phraseHTML
@@ -20,12 +20,12 @@ class Phrase {
                 phraseHTML += `<li class="space"> </li>`
             }
         });
-        displayDiv.firstChild.insertAdjacentHTML('beforeend', phraseHTML);
+        displayDiv.firstElementChild.insertAdjacentHTML('beforeend', phraseHTML);
     }
 
     checkLetter(char) {
         // check if letter is included in phraseArray
-        const phraseArray = this.phrase.split();
+        const phraseArray = this.phrase.split('');
         if (phraseArray.includes(char)) {
             return true;
         }
@@ -34,7 +34,7 @@ class Phrase {
 
     showMatchedLetter(char) {
         // reveal the letter(s) that match the playerGuess
-        const allMatchingChars = document.querySelector(`.${char}`);
+        const allMatchingChars = document.querySelectorAll(`.${char}`);
         allMatchingChars.forEach(charLI => {
             charLI.classList.remove('hide');
             charLI.classList.add('show');
