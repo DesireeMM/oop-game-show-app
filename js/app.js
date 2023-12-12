@@ -21,8 +21,9 @@ letterDiv.addEventListener('click', (evt) => {
         newGame.handleInteraction(targetBtn)
     }
 });
-
+// fix Uncaught TypeError
 document.addEventListener('keyup', (evt) => {
+    console.log(evt.target);
     const letterButtons = document.querySelectorAll('#qwerty button');
     letterButtons.forEach(btn => {
         if (btn.textContent === evt.key) {
